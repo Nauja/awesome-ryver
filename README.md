@@ -68,7 +68,7 @@ optional arguments:
 
 ## Commands
 
-## How to build AwesomeRyver binary
+## How to build the AwesomeRyver binary
 
 First clone this repository:
 
