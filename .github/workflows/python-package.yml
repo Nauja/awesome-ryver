@@ -30,6 +30,4 @@ jobs:
         python -m pip install wheel tox tox-gh-actions
     - name: Test with coverage
       run: |
-        tox -e begin
         tox
-        tox -e end
