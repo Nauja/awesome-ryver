@@ -68,6 +68,17 @@ optional arguments:
 
 ## Commands
 
+Here is the list of commands you can use in your messages.
+
+| Command | Description | Preview |
+|:----------|:-------------|:---------|
+| [color=FF0000]colored text[/color] | Generate a colored text with an hexadecimal color | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-color.png) |
+| [rainbow]rainbow text[/rainbow] | Generate a rainbow text | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-rainbow.gif) |
+| [html]<b>bold text</b>[/html] | Your message is replaced by the HTML code | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-html.png) |
+| [python/] | Print a magnificient Python in ASCII art | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-python.png) |
+
+More to come !
+
 ## How to build the AwesomeRyver binary
 
 First clone this repository:
