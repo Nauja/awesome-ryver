@@ -33,7 +33,7 @@ If you already have Python installed on your system, you may prefer to install t
 > pip install awesome-ryver
 ```
 
-And then you can launch it with:
+Make sure to have [AwesomeRyver.user.js](AwesomeRyver.user.js) in the folder from where you are running **AwesomeRyver**, and then you can launch it with:
 
 ```bash
 > awesome-ryver -e C:\Path\To\Ryver.exe
@@ -65,6 +65,33 @@ optional arguments:
   -p PLUGIN, --plugin PLUGIN
                         Path to the plugin script
 ```
+
+## Commands
+
+## How to build AwesomeRyver binary
+
+First clone this repository:
+
+```bash
+> git clone https://github.com/Nauja/awesome-ryver.git
+> cd awesome-ryver
+```
+
+Install **pyinstaller**:
+
+```bash
+> python -m pip install pyinstaller
+```
+
+Run **pyinstaller**:
+
+```bash
+> pyinstaller --onefile awesome_ryver/main.py
+```
+
+This generates a **dist** folder containing a **main** binary.
+
+Simply rename the binary to **AwesomeRyver** and put it next to **AwesomeRyver.user.js**.
 
 ## License
 
