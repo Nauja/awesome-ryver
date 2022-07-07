@@ -13,7 +13,58 @@ Easy, first make sure [Tampermonkey](https://www.tampermonkey.net/) is installed
 
 ## On your desktop
 
+The simplest method with near to zero install is to download the [lastest release](https://github.com/Nauja/awesome-ryver/releases) for your system, extract the archive, and run the **AwesomeRyver** binary. This is a packaged version of this Python package which avoid the need of installing Python, plus the dependencies, on your computer.
 
+Please note that **AwesomeRyver.user.js** is bundled in the archive and must be located near the **AwesomeRyver** binary for it to work. Alternatively, you can pass the path to **AwesomeRyver.user.js** with:
+
+```bash
+> AwesomeRyver.exe -p C:\Path\To\AwesomeRyver.user.js
+```
+
+If **Ryver.exe** is not in your **PATH**, you may have to launch the binary with:
+
+```bash
+> AwesomeRyver.exe -e C:\Path\To\Ryver.exe
+```
+
+If you already have Python installed on your system, you may prefer to install this Python package with:
+
+```bash
+> pip install awesome-ryver
+```
+
+And then you can launch it with:
+
+```bash
+> awesome-ryver -e C:\Path\To\Ryver.exe
+```
+
+Or:
+
+```bash
+> python -m awesome_ryver -e C:\Path\To\Ryver.exe
+```
+
+Either way, you can show the help with:
+
+```bash
+> AwesomeRyver.exe -h
+> awesome-ryver -h
+> python -m awesome_ryver -h
+
+usage: awesome-ryver [-h] [-t TIMEOUT] [-e EXE] [-d] [-p PLUGIN]
+
+Help
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TIMEOUT, --timeout TIMEOUT
+                        Timeout when trying to launch Ryver
+  -e EXE, --exe EXE     Path to Ryver executable
+  -d, --devtools        Enable devtools access from Ryver
+  -p PLUGIN, --plugin PLUGIN
+                        Path to the plugin script
+```
 
 ## License
 
