@@ -7,11 +7,11 @@
 This package mostly started as a joke, and from the desire of adding some extra and funny formatting features to Ryver, without requiring administrator rights or any access to the server.
 This is done by either installing [AwesomeRyver.user.js](AwesomeRyver.user.js) with [Tampermonkey](https://www.tampermonkey.net/) for the web version, or by script injection with this Python package for the desktop version.
 
-## In your browser
+## Install in your browser
 
 Easy, first make sure [Tampermonkey](https://www.tampermonkey.net/) is installed in your browser, then download [AwesomeRyver.user.js](AwesomeRyver.user.js) and install it via Tampermonkey.
 
-## On your desktop
+## Install on your desktop
 
 The simplest method with near to zero install is to download the [lastest release](https://github.com/Nauja/awesome-ryver/releases) for your system, extract the archive, and run the **AwesomeRyver** binary. This is a packaged version of this Python package which avoid the need of installing Python, plus the dependencies, on your computer.
 
