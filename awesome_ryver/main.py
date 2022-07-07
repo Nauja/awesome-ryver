@@ -95,23 +95,25 @@ class _LazyWebsocket(object):
 
 class _ElectronRemoteDebugger(object):
     def __init__(self, host, port):
-        self.params = {'host': host, 'port': port}
+        self.params = {"host": host, "port": port}
 
     def windows(self):
         params = self.params.copy()
-        params.update({'ts': int(time.time())})
+        params.update({"ts": int(time.time())})
 
         ret = []
-        for w in self.requests_get("http://%(host)s:%(port)s/json/list?t=%(ts)d" % params).json():
+        for w in self.requests_get(
+            "http://%(host)s:%(port)s/json/list?t=%(ts)d" % params
+        ).json():
             url = w.get("webSocketDebuggerUrl")
             if not url:
                 continue
-            w['ws'] = _LazyWebsocket(url)
+            w["ws"] = _LazyWebsocket(url)
             ret.append(w)
         return ret
 
     def requests_get(self, url, tries=5, delay=1):
-        last_exception = Exception("failed to request after %d tries."%tries)
+        last_exception = Exception("failed to request after %d tries." % tries)
         for _ in range(tries):
             try:
                 return requests.get(url)
@@ -121,49 +123,54 @@ class _ElectronRemoteDebugger(object):
             time.sleep(delay)
         raise last_exception
 
-
     def sendrcv(self, w, msg):
-        return w['ws'].sendrcv(msg)
+        return w["ws"].sendrcv(msg)
 
     def eval(self, w, expression):
 
-        data = {'id': 1,
-                'method': "Runtime.evaluate",
-                'params': {'contextId': 1,
-                           'doNotPauseOnExceptionsAndMuteConsole': False,
-                           'expression': expression,
-                           'generatePreview': False,
-                           'includeCommandLineAPI': True,
-                           'objectGroup': 'console',
-                           'returnByValue': False,
-                           'userGesture': True}}
+        data = {
+            "id": 1,
+            "method": "Runtime.evaluate",
+            "params": {
+                "contextId": 1,
+                "doNotPauseOnExceptionsAndMuteConsole": False,
+                "expression": expression,
+                "generatePreview": False,
+                "includeCommandLineAPI": True,
+                "objectGroup": "console",
+                "returnByValue": False,
+                "userGesture": True,
+            },
+        }
 
-        ret = json.loads(w['ws'].sendrcv(json.dumps(data)))
+        ret = json.loads(w["ws"].sendrcv(json.dumps(data)))
         if "result" not in ret:
             return ret
-        if ret['result'].get('wasThrown'):
-            raise Exception(ret['result']['result'])
-        return ret['result']
+        if ret["result"].get("wasThrown"):
+            raise Exception(ret["result"]["result"])
+        return ret["result"]
 
     @classmethod
     def execute(cls, path, port=None, timeout=None):
         if port is None:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.bind(('', 0))
+            sock.bind(("", 0))
             port = sock.getsockname()[1]
             sock.close()
 
         cmd = "%s %s" % (path, "--remote-debugging-port=%d" % port)
-        print (cmd)
+        print(cmd)
         p = subprocess.Popen(cmd, shell=True)
         try:
             p.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
-            raise TimeoutError("Could not execute cmd (not found or already running?): %r"%cmd)
+            raise TimeoutError(
+                "Could not execute cmd (not found or already running?): %r" % cmd
+            )
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         for _ in range(30):
-            result = sock.connect_ex(('localhost', port))
+            result = sock.connect_ex(("localhost", port))
             if result > 0:
                 break
             time.sleep(1)
@@ -171,42 +178,46 @@ class _ElectronRemoteDebugger(object):
 
 
 def _launch_url(url):
-    #https://stackoverflow.com/questions/4216985/call-to-operating-system-to-open-url
-    if sys.platform == 'win32':
+    # https://stackoverflow.com/questions/4216985/call-to-operating-system-to-open-url
+    if sys.platform == "win32":
         os.startfile(url)
-    elif sys.platform == 'darwin':
-        subprocess.Popen(['open', url])
+    elif sys.platform == "darwin":
+        subprocess.Popen(["open", url])
     else:
         try:
-            subprocess.Popen(['xdg-open', url])
+            subprocess.Popen(["xdg-open", url])
         except OSError:
-            logger.info ('Please open a browser on: ' + url)
+            logger.info("Please open a browser on: " + url)
 
 
-def _inject(target, devtools=False, browser=False, timeout=None, scripts=None, port=None):
+def _inject(
+    target, devtools=False, browser=False, timeout=None, scripts=None, port=None
+):
     erb = _ElectronRemoteDebugger.execute(target, port, timeout=timeout)
-    
+
     timeout = time.time() + int(timeout) if timeout else 5
 
     windows_visited = set()
     while True:
-        for w in (_ for _ in erb.windows() if _.get('id') not in windows_visited):
+        for w in (_ for _ in erb.windows() if _.get("id") not in windows_visited):
             try:
                 if devtools:
-                    logger.info("injecting hotkeys script into %s" % w.get('id'))
+                    logger.info("injecting hotkeys script into %s" % w.get("id"))
                     logger.debug(erb.eval(w, _SCRIPT_HOTKEYS_F12_DEVTOOLS_F5_REFRESH))
 
                 for name, content in scripts.items():
-                    logger.info("injecting %s into %s" % (name, w.get('id')))
+                    logger.info("injecting %s into %s" % (name, w.get("id")))
                     logger.debug(erb.eval(w, content))
 
             except Exception as e:
                 logger.exception(e)
             finally:
                 # patch windows only once
-                windows_visited.add(w.get('id'))
+                windows_visited.add(w.get("id"))
 
-        if time.time() > timeout or all(w.get('id') in windows_visited for w in erb.windows()):
+        if time.time() > timeout or all(
+            w.get("id") in windows_visited for w in erb.windows()
+        ):
             break
         logger.debug("timeout not hit.")
         time.sleep(1)
@@ -217,16 +228,22 @@ def _inject(target, devtools=False, browser=False, timeout=None, scripts=None, p
 
 
 # This is my own code
-def run(*, exe: str=None, devtools: Optional[bool]=None, plugin: Optional[Union[str, Path]]=None, timeout: Optional[int] = None) -> None:
+def run(
+    *,
+    exe: str = None,
+    devtools: Optional[bool] = None,
+    plugin: Optional[Union[str, Path]] = None,
+    timeout: Optional[int] = None
+) -> None:
     """Run Ryver with injected plugin.
-    
+
     :param exe: path to Ryver executable
     :param devtools: enable devtools access from Ryver
     :param plugin: path to the plugin script
     :param timeout: timeout when trying to launch Ryver
     """
     exe = exe if exe is not None else "Ryver.exe"
-    plugin = plugin if plugin is not None else Path.cwd() / 'AwesomeRyver.user.js'
+    plugin = plugin if plugin is not None else Path.cwd() / "AwesomeRyver.user.js"
     if isinstance(plugin, str):
         plugin = Path(plugin)
 
@@ -236,25 +253,33 @@ def run(*, exe: str=None, devtools: Optional[bool]=None, plugin: Optional[Union[
         scripts={
             "Injector.js": _INJECTOR_JS.format(plugin_path=plugin.absolute().as_posix())
         },
-        timeout=timeout
+        timeout=timeout,
     )
 
 
-def main(argv: list[str]=None) -> None:
+def main(argv: list[str] = None) -> None:
     parser = argparse.ArgumentParser(prog="awesome-ryver", description="Help")
-    parser.add_argument("-t", "--timeout", type=int, default=None, help="Timeout when trying to launch Ryver")
-    parser.add_argument("-e", "--exe", type=str, default="Ryver.exe", help="Path to Ryver executable")
-    parser.add_argument("-d", "--devtools", action="store_true", help="Enable devtools access from Ryver")
+    parser.add_argument(
+        "-t",
+        "--timeout",
+        type=int,
+        default=None,
+        help="Timeout when trying to launch Ryver",
+    )
+    parser.add_argument(
+        "-e", "--exe", type=str, default="Ryver.exe", help="Path to Ryver executable"
+    )
+    parser.add_argument(
+        "-d",
+        "--devtools",
+        action="store_true",
+        help="Enable devtools access from Ryver",
+    )
     parser.add_argument("-p", "--plugin", type=str, help="Path to the plugin script")
     args = parser.parse_args(args=argv)
 
-    run(
-        exe=args.exe,
-        devtools=args.devtools,
-        plugin=args.plugin,
-        timeout=args.timeout
-    )
+    run(exe=args.exe, devtools=args.devtools, plugin=args.plugin, timeout=args.timeout)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
