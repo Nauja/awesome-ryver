@@ -7,33 +7,31 @@
 This package mostly started as a joke, and from the desire of adding some extra and funny formatting features to Ryver, without requiring administrator rights or any access to the server.
 This is done by either installing [AwesomeRyver.user.js](AwesomeRyver.user.js) with [Tampermonkey](https://www.tampermonkey.net/) for the web version, or by script injection with this Python package for the desktop version.
 
-## Install in your browser
+## In your browser
 
-Easy, first make sure [Tampermonkey](https://www.tampermonkey.net/) is installed in your browser, then download [AwesomeRyver.user.js](AwesomeRyver.user.js) and install it via Tampermonkey.
+This is the simplest and quickest method:
+* Install [Tampermonkey](https://www.tampermonkey.net/) in your browser
+* Download [AwesomeRyver.user.js](AwesomeRyver.user.js)
+* Install it via Tampermonkey
+* Go to ryver
 
-## Install on your desktop
+## On your desktop: with prebuilt binary
 
-The simplest method with near to zero install is to download the [lastest release](https://github.com/Nauja/awesome-ryver/releases) for your system, extract the archive, and run the **AwesomeRyver** binary. This is a packaged version of this Python package which avoid the need of installing Python, plus the dependencies, on your computer.
+With near to zero install:
+* Download the lastest [AwesomeRyver-arch-version.zip](https://github.com/Nauja/awesome-ryver/releases) release for your system
+* Extract the archive
+* Move both the **AwesomeRyver** binary and **AwesomeRyver.user.js** script next to your **Ryver** binary
+* Run **AwesomeRyver**
 
-Please note that **AwesomeRyver.user.js** is bundled in the archive and must be located near the **AwesomeRyver** binary for it to work. Alternatively, you can pass the path to **AwesomeRyver.user.js** with:
+## On your desktop: with pip
 
-```bash
-> AwesomeRyver.exe -p C:\Path\To\AwesomeRyver.user.js
-```
-
-If **Ryver.exe** is not in your **PATH**, you may have to launch the binary with:
-
-```bash
-> AwesomeRyver.exe -e C:\Path\To\Ryver.exe
-```
-
-If you already have Python installed on your system, you may prefer to install this Python package with:
+If you have Python installed on your system, you may prefer to install this Python package with **pip**:
 
 ```bash
 > pip install awesome-ryver
 ```
 
-Make sure to have [AwesomeRyver.user.js](AwesomeRyver.user.js) in the folder from where you are running **AwesomeRyver**, and then you can launch it with:
+Make sure to download and move [AwesomeRyver.user.js](AwesomeRyver.user.js) in the folder from where you will be running **AwesomeRyver**, then you can launch it with:
 
 ```bash
 > awesome-ryver -e C:\Path\To\Ryver.exe
@@ -48,7 +46,6 @@ Or:
 Either way, you can show the help with:
 
 ```bash
-> AwesomeRyver.exe -h
 > awesome-ryver -h
 > python -m awesome_ryver -h
 
