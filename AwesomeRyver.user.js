@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AwesomeRyver
 // @namespace    https://github.com/Nauja/awesome-ryver
-// @version      0.1
+// @version      0.1.2
 // @description  Client-side plugin adding extra features to Ryver
 // @author       Nauja
 // @match        https://*.ryver.com/index.html
@@ -116,11 +116,11 @@
 
     function process(el) {
         let html = el.innerHTML;
-        html = html.replace(/\[color=([0-9a-fA-F]+)\](.*)\[\/color\]/, '<span style="color: #$1;">$2</span>');
-        html = html.replace(/\[html\](.*)\[\/html\]/, (match, p1, offset, input_string) => {
+        let newHtml = html.replace(/\[color=([0-9a-fA-F]+)\](.*)\[\/color\]/, '<span style="color: #$1;">$2</span>');
+        newHtml = newHtml.replace(/\[html\](.*)\[\/html\]/, (match, p1, offset, input_string) => {
             return unescape(p1);
         });
-        html = html.replace(/\[python\/\]/, (match, contents, offset, input_string) => {
+        newHtml = newHtml.replace(/\[python\/\]/, (match, contents, offset, input_string) => {
             return '<pre style="font-family: monospace; white-space: pre;">             ____\n' +
                 "            / . .\\\n" +
                 "            \\  ---<\n"+
@@ -128,15 +128,20 @@
                 "   __________/ /\n"+
                 "-=:___________/</pre>";
         });
-        html = html.replace(/\[rainbow\](.*)\[\/rainbow\]/, '<span class="rainbow-text">$1</span>');
-        el.innerHTML = html;
+        newHtml = newHtml.replace(/\[rainbow\](.*)\[\/rainbow\]/, '<span class="rainbow-text">$1</span>');
+        if (html !== newHtml) {
+            el.innerHTML = newHtml;
+        }
     }
 
     function observe() {
-        const elements = document.body.querySelectorAll("div.chat-message__item-text:not(.awesomeryver-checked)");
+        const elements = document.body.querySelectorAll("div.chat-message__item-text:not([awesome-ryver])");
         elements.forEach(element => {
-            element.classList.add('awesomeryver-checked');
-            process(element);
+            element.setAttribute("awesome-ryver", "checked");
+            const p = element.querySelector("p");
+            if (p) {
+                process(p);
+            }
         });
     }
 
