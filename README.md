@@ -86,7 +86,7 @@ Those commands only work when clicking on the green **Send** button:
 | [spoil]some secret[/spoil] | Hide the text until clicked | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-spoil.gif) |
 | [rand10/] | Choose a random float between [0.0, 10.0[ | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-rand.png) |
 | [random10/] | Choose a random int between [0, 10[ | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-random.png) |
-| [d10/] | Choose a random int between [1, 10[ | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-d10.png) |
+| [d10/] | Choose a random int between [1, 10] | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-d10.png) |
 
 More to come !
 
