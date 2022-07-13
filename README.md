@@ -65,14 +65,28 @@ optional arguments:
 
 ## Commands
 
-Here is the list of commands you can use in your messages.
+Those commands work when they are detected in received messages:
 
 | Command | Description | Preview |
 |:----------|:-------------|:---------|
 | [color=FF0000]colored text[/color] | Generate a colored text with an hexadecimal color | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-color.png) |
+| [red]red text[/red] | Generate a colored text | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-red.png) |
+| [green]green text[/green] | Generate a colored text | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-green.png) |
+| [blue]blue text[/blue] | Generate a colored text | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-blue.png) |
 | [rainbow]rainbow text[/rainbow] | Generate a rainbow text | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-rainbow.gif) |
+| [wave]wavy text[/wave] | Generate a wavy text | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-wave.gif) |
 | [html]\<b\>bold text\</b\>[/html] | Your message is replaced by the HTML code | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-html.png) |
 | [python/] | Print a magnificient Python in ASCII art | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-python.png) |
+
+Those commands only work when clicking on the green **Send** button:
+
+| Command | Description | Preview |
+|:----------|:-------------|:---------|
+| [version/] | Print AwesomeRyver version | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-version.png) |
+| [spoil]some secret[/spoil] | Hide the text until clicked | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-spoil.gif) |
+| [rand10/] | Choose a random float between [0.0, 10.0[ | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-rand.png) |
+| [random10/] | Choose a random int between [0, 10[ | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-random.png) |
+| [d10/] | Choose a random int between [1, 10] | ![Preview](https://github.com/Nauja/awesome-ryver/raw/media/command-d10.png) |
 
 More to come !
 
